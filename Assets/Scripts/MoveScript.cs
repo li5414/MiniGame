@@ -23,7 +23,7 @@ public class MoveScript : MonoBehaviour
 	{
 		// 2 - Movement
 		//movement = new Vector2(speed.x * direction.x,speed.y * direction.y);
-		movement = new Vector2 (0, -2);
+		movement = new Vector2 (0, -1);
 	}
 	
 	void FixedUpdate()

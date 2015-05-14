@@ -17,7 +17,7 @@ public class WeaponScript : MonoBehaviour
 	/// <summary>
 	/// Cooldown in seconds between two shots
 	/// </summary>
-	public float shootingRate = 0.25f;
+	public float shootingRate = 0.5f;
 	
 	//--------------------------------
 	// 2 - Cooldown
@@ -47,13 +47,14 @@ public class WeaponScript : MonoBehaviour
 	/// </summary>
 	public void Attack(bool isEnemy)
 	{
-		if (CanAttack)
+		if (CanAttack && (ShotScript.bo > 0))
 		{
 			shootCooldown = shootingRate;
+			ShotScript.bo--;                     //盒子数-1
 			
-			// Create a new shot
+			// Create a new shot                   创造盒子
 			var shotTransform = Instantiate(shotPrefab) as Transform;
-			
+
 			// Assign position
 			shotTransform.position = transform.position - new Vector3 (0,0.25f,0);
 			
