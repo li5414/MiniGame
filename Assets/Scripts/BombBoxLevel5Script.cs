@@ -15,7 +15,10 @@ public class BombBoxLevel5Script: MonoBehaviour
 		public GameObject musicInstant_seemonster = null;//文章中叫obj
 		public GameObject musicInstant_monster1 = null;//文章中叫obj
 		//private GameObject hero;
-
+		private bool isBig = false;
+		private bool isDestroy = false;
+		private bool isCollision = false;
+		private GameObject obj;
 		// Use this for initialization
 		void Start ()
 		{
@@ -34,6 +37,19 @@ public class BombBoxLevel5Script: MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
+				/*if (isBig) {
+						gameObject.transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
+						Thread delay = new Thread (Wait2);
+						delay.Start ();
+						isBig = false;
+				}*/
+				if (isDestroy) {
+						Destroy (obj);
+						Destroy (gameObject);
+						isDestroy = false;
+						isCollision = false;
+				}
+		
 				//冲向英雄盒子后，方向及速度不再改变
 				if (speed > walkSpeed)
 						return;
@@ -63,6 +79,13 @@ public class BombBoxLevel5Script: MonoBehaviour
 				pos.y = transform.position.y;
 				pos.z = 0;
 				transform.position = pos;
+		}
+
+		void OnDestroy ()
+		{
+				if (obj != null) {
+						Destroy (obj);		
+				}
 		}
 	
 		float GetPosition (int col)
@@ -99,7 +122,7 @@ public class BombBoxLevel5Script: MonoBehaviour
 				GameObject hero = GameObject.FindWithTag ("Player");
 				GameObject hitObj = collision.collider.gameObject;
 
-				if (hero == hitObj) {
+				if ((hero == hitObj) && !isCollision) {
 						//控制声音
 						musicInstant_monster1.audio.Play ();
 						PlayerScript.playBombAnimation (true);
@@ -111,12 +134,19 @@ public class BombBoxLevel5Script: MonoBehaviour
 				}
 
 				foreach (BoxWithTimer bwt in PlayerScript.produceList) {
-						if (bwt.box == hitObj) {
+						if ((bwt.box == hitObj) && !isCollision) {
 								//控制声音
 								musicInstant_monster1.audio.Play ();
 								PlayerScript.produceList.Remove (bwt);
-								Destroy (hitObj);
-								Destroy (gameObject);
+								PlayerScript.numOfBrothers -= 1;
+								PlayerScript.isBrotherLess = true;
+								hitObj.GetComponent<Animator> ().SetBool ("IsIceBomb", true);
+								isCollision = true;
+								//Destroy (hitObj);
+								obj = hitObj;
+								gameObject.GetComponent<Animator> ().SetBool ("IsBoxBomb", true);
+								Thread delay = new Thread (Wait1);
+								delay.Start ();
 								return;
 						}
 				}
@@ -124,9 +154,22 @@ public class BombBoxLevel5Script: MonoBehaviour
 
 		void Wait ()
 		{    
-				Thread.Sleep (800);
+				Thread.Sleep (1500);
 				CameraScript.isBomb = true;
 		}
+
+		void Wait1 ()
+		{
+				Thread.Sleep (500);
+				//isBig = true;
+				isDestroy = true;
+		}
+
+		/*void Wait2 ()
+		{
+				Thread.Sleep (100);
+				isDestroy = true;
+		}*/
 
 		public void SetLeftLimit (int left)
 		{

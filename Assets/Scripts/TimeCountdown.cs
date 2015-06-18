@@ -10,6 +10,7 @@ public class TimeCountdown : MonoBehaviour
 	private float nowTime;
 
 	public Text time;
+	public Text num;
 
 	// Use this for initialization
 	void Start()
@@ -28,7 +29,7 @@ public class TimeCountdown : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
+		num.text = "" + PlayerScript.numOfBrothers;
 	}
 
 	void CountDown()
@@ -39,5 +40,9 @@ public class TimeCountdown : MonoBehaviour
 		{
 			Application.LoadLevel("fail");
 		}
+	}
+
+	public void setPressBuyButton(bool setPress){
+		icescript.isPressBuyButton = setPress;
 	}
 }

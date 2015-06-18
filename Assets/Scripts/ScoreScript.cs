@@ -12,7 +12,8 @@ public class ScoreScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		score.text = PassScript.time;
+		string text = "您的得分：" + PassScript.time;
+		score.text = text;
 		score.fontStyle = FontStyle.Normal;
 		score.fontSize = 38;
 		//TODO 排行榜

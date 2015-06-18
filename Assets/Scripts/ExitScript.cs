@@ -6,6 +6,7 @@ using Msdk;
 public class ExitScript : MonoBehaviour
 {
 		public GameObject alertdialog;
+		
 		// Use this for initialization
 		void Start ()
 		{
@@ -31,12 +32,13 @@ public class ExitScript : MonoBehaviour
 				}
 		}
 
-	public void logout(){
-		if (Application.platform == RuntimePlatform.Android && msdk.flag == true) {
-			Debug.Log ("登出");
-			WGPlatform.Instance.WGLogout ();
-			msdk.flag = false;
+		public void logout ()
+		{
+				if (Application.platform == RuntimePlatform.Android && msdk.flag == true) {
+						Debug.Log ("登出");
+						WGPlatform.Instance.WGLogout ();
+						msdk.flag = false;
+				}
+				Application.LoadLevel ("login");
 		}
-		Application.LoadLevel("login");
-	}
 }

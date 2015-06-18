@@ -155,10 +155,10 @@
  <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.3/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="IBugly">
- <HintPath>C:/Users/Administrator/Desktop/MiniGame0607_1314/MiniGame0607_1314/MiniGameV1.0/Assets/Plugins/IBugly.dll</HintPath>
+ <HintPath>C:/Users/Administrator/Desktop/MiniGame0615_1750/MiniGame0615_1750/MiniGameV1.0/Assets/Plugins/IBugly.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>C:/Users/Administrator/Desktop/MiniGame0607_1314/MiniGame0607_1314/MiniGameV1.0/Assets/Plugins/Msdk/LitJson.dll</HintPath>
+ <HintPath>C:/Users/Administrator/Desktop/MiniGame0615_1750/MiniGame0615_1750/MiniGameV1.0/Assets/Plugins/Msdk/LitJson.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

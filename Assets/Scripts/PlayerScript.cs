@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 
 public class BoxWithTimer
 {
@@ -34,13 +35,15 @@ public class PlayerScript : MonoBehaviour
 		public const int MAX_BROTHERS_NUM = 7;
 		public static LinkedList<BoxWithTimer> produceList = new LinkedList<BoxWithTimer> ();//为方便删除任意一个对象，改用双向链表
 		private static Queue collectQueue = new Queue ();
-		private int numOfBrothers;                        //当前拥有的盒子数量
-		public static float ALIVE_TIME = 5f;              //盒子的最长存活时间
+		public static int numOfBrothers;                  //当前拥有的冰块数量
+		public static bool isBrotherLess = false;
+		public static float ALIVE_TIME = 5f;              //冰块的最长存活时间
 
 		private static Vector3 posBeyondScreen = new Vector3 (-100f, -100f, -100f);
 		private float lastPosY; //上一帧的Y坐标
 		private float lastVelocity;
 		private static Animator anim;
+		public static bool isBig = false;
 
 		//音乐控制代码，sylvia
 		void Start ()
@@ -123,6 +126,11 @@ public class PlayerScript : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
+				if (isBig) {
+						transform.localScale = new Vector3 (2, 2, 2);
+						Thread delay = new Thread (Wait);
+						delay.Start ();
+				}
         
 				foreach (BoxWithTimer bwt in produceList) {
 						bwt.aliveTime -= Time.deltaTime;
@@ -163,8 +171,7 @@ public class PlayerScript : MonoBehaviour
         
 				lastVelocity = rig2D.velocity.x;
 
-                if (up && CameraScript.IsUpBlank(GameObject.Find("Player")))
-                {
+				if (up && CameraScript.IsUpBlank (GameObject.Find ("Player"))) {
 						ProduceOneBox ();
 						up = false;
 				}
@@ -180,7 +187,7 @@ public class PlayerScript : MonoBehaviour
 		void SetPosition (GameObject obj)
 		{
 				Vector3 pos = transform.position;
-				Vector3 newPos = pos + new Vector3 (0, 0.4f, 0);
+				Vector3 newPos = pos + new Vector3 (0, 0.37f, 0);
 		
 				this.transform.position = newPos;
 				obj.transform.position = pos;
@@ -198,11 +205,10 @@ public class PlayerScript : MonoBehaviour
 						produceList.AddLast (bwt);//放入链表尾部
 						bwt.aliveTime = ALIVE_TIME;//重置存活时间
 				} else if (produceList.Count > 0) { //回收队列为空
-						DestroyOneBox ();//则先消去一个盒子，再生产出来
+				DestroyOneBox ();//则先消去一个盒子，再生产出来
 				}
 				//控制声音
 				musicInstant_iceadd.audio.Play ();
-
 		}
  
 		//消去一个盒子
@@ -232,6 +238,13 @@ public class PlayerScript : MonoBehaviour
 		{
 				if (isBomb && (anim != null)) {
 						anim.SetBool ("IsBomb", isBomb);
+						isBig = true;
 				} 
+		}
+
+		void Wait ()
+		{
+				Thread.Sleep (200);
+				isBig = false;
 		}
 }

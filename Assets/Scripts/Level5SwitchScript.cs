@@ -20,6 +20,6 @@ public class Level5SwitchScript : MonoBehaviour {
 
 	void PlatformMoveOut()
 	{
-		Platform.transform.position = new Vector3(-2.2f, 0.18f, -5f);
+		Platform.transform.position = new Vector3(-2.2f, 0.18f, 5f);
 	}
 }

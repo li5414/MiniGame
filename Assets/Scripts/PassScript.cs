@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System;
 
 public class PassScript : MonoBehaviour {
 	public static string time = "";
@@ -27,6 +29,21 @@ public class PassScript : MonoBehaviour {
 			PlayerGetKeyScript.key = false;
 			//过关之后解锁下一关
 			CameraScript.locked[CameraScript.GameLevel+1] = 1;
+			StreamWriter sw;
+			string path = Application.persistentDataPath;
+			string fileName = "Lock.txt";
+			FileInfo t = new FileInfo(path+"//"+fileName);
+			if(t.Exists)
+			{
+				File.Delete (path+"//"+fileName);
+			}
+			sw = t.CreateText();
+			for(int i = 0; i < 6; i++)
+			{
+				sw.WriteLine(CameraScript.locked[i].ToString());
+			}
+			sw.Close ();
+			sw.Dispose ();
 		}
 	}
 }

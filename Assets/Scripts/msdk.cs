@@ -11,8 +11,10 @@ using com.tencent.bugly.unity3d;
 using UnityEngine.UI;
 
 public class msdk : MonoBehaviour {
-	public static string username;
-	private string openid;
+	public static string username = "username";
+	public static string imgurl_small = null;
+	public static string imgurl_middle = null;
+	public static string imgurl_large= null;
 	private int platform;
 	public static bool flag = false;
 
@@ -93,8 +95,6 @@ public class msdk : MonoBehaviour {
 		{
 		case CallbackFlag.eFlag_Succ:
 			flag = true;
-			Application.LoadLevel("guanka");
-			openid = ret.open_id;
 			// 登陆成功, 可以读取各种票据				
 			platform = ret.platform;
 			if(EPlatform.ePlatform_Weixin == platform)
@@ -109,6 +109,7 @@ public class msdk : MonoBehaviour {
 			{
 				//大厅登陆成功
 			}
+			Application.LoadLevel("guanka");
 			break;
 			// 游戏逻辑，对登陆失败情况分别进行处理
 		case CallbackFlag.eFlag_Local_Invalid:
@@ -131,5 +132,8 @@ public class msdk : MonoBehaviour {
 			return;
 		}
 		username = ret.persons[0].nickName;
+		imgurl_small = ret.persons [0].pictureSmall;
+		imgurl_middle = ret.persons [0].pictureMiddle;
+		imgurl_large = ret.persons [0].pictureLarge;
 	}
 }
